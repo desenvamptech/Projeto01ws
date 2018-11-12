@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto implements Serializable {
 	
@@ -28,6 +30,8 @@ public class Produto implements Serializable {
 		joinColumns = @JoinColumn(name = "PRODUTO_ID"),
 		inverseJoinColumns = @JoinColumn(name = "CATEGORIA_ID") 
 	)
+	
+	@JsonIgnore
 	private List<Categoria> categorias = new ArrayList<Categoria>();
 
 	public Produto() {
