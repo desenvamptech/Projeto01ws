@@ -8,18 +8,28 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.amptech.projeto01ws.domain.Categoria;
+import br.com.amptech.projeto01ws.domain.Cidade;
+import br.com.amptech.projeto01ws.domain.Estado;
 import br.com.amptech.projeto01ws.domain.Produto;
 import br.com.amptech.projeto01ws.repositories.CategoriaRepository;
+import br.com.amptech.projeto01ws.repositories.CidadeRepository;
+import br.com.amptech.projeto01ws.repositories.EstadoRepository;
 import br.com.amptech.projeto01ws.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class Projeto01wsApplication implements CommandLineRunner {
 
 	@Autowired
-	private CategoriaRepository categorias;
+	private CategoriaRepository categoriaRepository;
 	
 	@Autowired
-	private ProdutoRepository produtos;
+	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private CidadeRepository cidadeRepository;	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Projeto01wsApplication.class, args);
@@ -57,11 +67,24 @@ public class Projeto01wsApplication implements CommandLineRunner {
 		
 		p7.getCategorias().addAll(Arrays.asList(cat3));
 		p8.getCategorias().addAll(Arrays.asList(cat3));
-		p9.getCategorias().addAll(Arrays.asList(cat3));
+		p9.getCategorias().addAll(Arrays.asList(cat3));		
 		
-		categorias.saveAll(Arrays.asList(cat1, cat2, cat3));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		
-		produtos.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9));
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9));
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2	= new Estado(null, "São Paulo");
+		
+		Cidade c1 = new Cidade(null, "Uberlandia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));
+
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));										
 		
 	}
 		
