@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.amptech.projeto01ws.domain.Categoria;
 import br.com.amptech.projeto01ws.domain.Cidade;
+import br.com.amptech.projeto01ws.domain.Cliente;
+import br.com.amptech.projeto01ws.domain.Endereco;
 import br.com.amptech.projeto01ws.domain.Estado;
 import br.com.amptech.projeto01ws.domain.Produto;
+import br.com.amptech.projeto01ws.domain.enums.TipoCliente;
 import br.com.amptech.projeto01ws.repositories.CategoriaRepository;
 import br.com.amptech.projeto01ws.repositories.CidadeRepository;
+import br.com.amptech.projeto01ws.repositories.ClienteRepository;
+import br.com.amptech.projeto01ws.repositories.EnderecoRepository;
 import br.com.amptech.projeto01ws.repositories.EstadoRepository;
 import br.com.amptech.projeto01ws.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class Projeto01wsApplication implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;	
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository EnderecoRepository;		
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Projeto01wsApplication.class, args);
@@ -77,15 +88,27 @@ public class Projeto01wsApplication implements CommandLineRunner {
 		Estado est2	= new Estado(null, "São Paulo");
 		
 		Cidade c1 = new Cidade(null, "Uberlandia", est1);
-		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c2 = new Cidade(null, "Artur Nogueira", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 		
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
-		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));										
+		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));	
 		
+		Cliente cli1 = new Cliente(null, "Andre Politti", "andrepolitti@gmail.com", "35491720879", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("38771034", "38771184"));
+		
+		Endereco e1 = new Endereco(null, "Rua Jose Amaro Rodrigues Filho", "709", "", "Jardim Ricardo Duzzi", "13160000", cli1, c2);
+		Endereco e2 = new Endereco(null, "Avenida Tancredo Neves", "422", "Apto 24", "Jardim Rezek 2", "13160000", cli1, c3);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		
+		EnderecoRepository.saveAll(Arrays.asList(e1, e2));
+				
 	}
 		
 }
