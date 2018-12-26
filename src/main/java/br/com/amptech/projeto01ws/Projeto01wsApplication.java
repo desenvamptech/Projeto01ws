@@ -59,8 +59,7 @@ public class Projeto01wsApplication implements CommandLineRunner {
 	private PagamentoRepository PagamentoRepository;		
 	
 	@Autowired
-	private ItemPedidoRepository ItemPedidoRepository;		
-	
+	private ItemPedidoRepository ItemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Projeto01wsApplication.class, args);
@@ -158,7 +157,8 @@ public class Projeto01wsApplication implements CommandLineRunner {
 		p2.getItens().addAll(Arrays.asList(ip2));		
 		p3.getItens().addAll(Arrays.asList(ip3));
 		
-		ItemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		ItemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));	
+		
 				
 	}
 		
