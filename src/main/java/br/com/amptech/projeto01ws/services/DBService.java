@@ -20,6 +20,7 @@ import br.com.amptech.projeto01ws.domain.PagamentoComCartao;
 import br.com.amptech.projeto01ws.domain.Pedido;
 import br.com.amptech.projeto01ws.domain.Produto;
 import br.com.amptech.projeto01ws.domain.enums.EstadoPagamento;
+import br.com.amptech.projeto01ws.domain.enums.Perfil;
 import br.com.amptech.projeto01ws.domain.enums.TipoCliente;
 import br.com.amptech.projeto01ws.repositories.CategoriaRepository;
 import br.com.amptech.projeto01ws.repositories.CidadeRepository;
@@ -117,16 +118,19 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));	
 		
 		Cliente cli1 = new Cliente(null, "Andre Politti", "andrepolitti@gmail.com", "35491720879", TipoCliente.PESSOAFISICA, be.encode("123"));
-		cli1.getTelefones().addAll(Arrays.asList("38771034", "38771184"));
-		
+		cli1.getTelefones().addAll(Arrays.asList("38771034", "38771184"));		
 		Endereco e1 = new Endereco(null, "Rua Jose Amaro Rodrigues Filho", "709", "", "Jardim Ricardo Duzzi", "13160000", cli1, c2);
-		Endereco e2 = new Endereco(null, "Avenida Tancredo Neves", "422", "Apto 24", "Jardim Rezek 2", "13160000", cli1, c3);
-		
+		Endereco e2 = new Endereco(null, "Avenida Tancredo Neves", "422", "Apto 24", "Jardim Rezek 2", "13160000", cli1, c3);		
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		Cliente cli2 = new Cliente(null, "Cliente Admin", "andre.politti@informaction.com.br", "35491720879", TipoCliente.PESSOAFISICA, be.encode("123"));
+		cli2.getTelefones().addAll(Arrays.asList("38771034", "38771184"));
+		cli2.addPerfil(Perfil.ADMIN);
+		Endereco e3 = new Endereco(null, "Rua Jose Amaro Rodrigues Filho", "709", "", "Jardim Ricardo Duzzi", "13160000", cli1, c2);
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 		
-		EnderecoRepository.saveAll(Arrays.asList(e1, e2));
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
+		EnderecoRepository.saveAll(Arrays.asList(e1, e2, e3));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
