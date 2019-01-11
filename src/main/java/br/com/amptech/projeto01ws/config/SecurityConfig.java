@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import br.com.amptech.projeto01ws.security.JWTAuthenticationFilter;
+import br.com.amptech.projeto01ws.security.JWTAuthorizationFilter;
 import br.com.amptech.projeto01ws.security.JWTUtil;
 
 
@@ -64,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(PUBLIC_MATCHERS).permitAll()
 			.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-		//http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
-		//http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 	@Override
