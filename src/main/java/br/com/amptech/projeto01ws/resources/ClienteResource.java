@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.amptech.projeto01ws.domain.Cliente;
+import br.com.amptech.projeto01ws.domain.enums.Perfil;
 import br.com.amptech.projeto01ws.dto.ClienteDTO;
 import br.com.amptech.projeto01ws.dto.ClienteNewDTO;
+import br.com.amptech.projeto01ws.security.UserSS;
 import br.com.amptech.projeto01ws.services.ClienteService;
+import br.com.amptech.projeto01ws.services.UserService;
+import br.com.amptech.projeto01ws.services.exceptions.AuthorizationException;
 
 @RestController
 @RequestMapping(value="/clientes")
@@ -30,7 +34,12 @@ public class ClienteResource {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)	
 	public ResponseEntity<Cliente> find(@PathVariable Integer id) {
-				
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !(user.hasRole(Perfil.ADMIN)) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");			          
+		}
+		
 		Cliente obj = service.find(id);
 					
 		return ResponseEntity.ok().body(obj);
